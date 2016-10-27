@@ -1,0 +1,5 @@
+*.o
+*.a
+*.cm*
+bin/csisat
+/obj/*
