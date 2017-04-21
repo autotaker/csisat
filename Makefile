@@ -25,7 +25,6 @@ OCAML_LD_FLAGS =
 DIRS = $(OBJ) $(BIN)
 
 FILES = \
-	$(OBJ)/camlglpk_stubs.o \
 	$(OBJ)/camlglpk.cmx \
 	$(OBJ)/csisatGlobal.cmx \
 	$(OBJ)/csisatMessage.cmx \
@@ -61,7 +60,7 @@ TARGET = $(BIN)/csisat
 
 
 all: $(DIRS) lib $(FILES)
-	$(OCAML_OPT_C) $(COMPILE_FLAG) -o $(TARGET) $(FILES) $(LIBS) $(CAMLGLPK)
+	$(OCAML_OPT_C) $(COMPILE_FLAG) -o $(TARGET) $(GLPK_OBJ) $(FILES) $(LIBS) $(CAMLGLPK)
 	$(shell sed -i 's/Version .*\\n\\n/Version 1.2 (Rev REV, Build DATE)\.\\n\\n/g' $(SRC)/csisatConfig.ml)
 
 $(OBJ):
@@ -144,7 +143,7 @@ lib: $(LIB_DIR)/$(OCAML_LIB).cmxa
 
 GLPK_OBJ = $(OBJ)/camlglpk_stubs.o
 
-$(LIB_DIR)/$(OCAML_LIB).cmxa $(LIB_DIR)/$(OCAML_LIB).a: $(GLPK_LIB) $(FILES)
+$(LIB_DIR)/$(OCAML_LIB).cmxa $(LIB_DIR)/$(OCAML_LIB).a: $(GLPK_LIB) $(GLPK_OBJ) $(FILES)
 	@echo Creating OCAML \(native code\) library $@
 	@mkdir -p $(LIB_DIR)
 	$(OCAML_OPT_LD) $(OCAML_LD_FLAGS) -a -o $@ $(FILES)
